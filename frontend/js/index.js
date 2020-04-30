@@ -1,31 +1,36 @@
 const url = "http://localhost:3000/api/teddies/";
+let request = new Request(url);
 
-function request(url) {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", url);
-        xhr.responseType ='json';
-        xhr.onload = () => resolve(xhr.response);
-        xhr.onerror = () => reject(xhr.status);
-        xhr.send();
-    });
-}
-
-request(url)
+request.requestHttpGet()
     .then(data => {
-        let html = '';
-        data.forEach(data => {
-           html += `
+        displayProducts(data);
+       //Storage.saveProducts(data);
+    })
+    .catch(function (error) {
+        console.log('Il y a eu un problème avec la génération des articles' + error.message);
+    });
+
+function displayProducts(products) {
+    let html = '';
+    products.forEach(data => {
+        html += `
            <article>    
                 <h2>${data.name}</h2>
-                <a class="link" href="${url + data._id}"><img class="images" src="${data.imageUrl}"/></a>              
+                <a class="link" href="html/product.html?id=${data._id}"><img class="images" src="${data.imageUrl}"/></a>              
                 <ul>
                     <li>Prix : ${data.price.toString()}</li>
                     <li>Description : ${data.description}</li>
                 </ul>
             </article>`;
-        });
-        document.getElementById('product').innerHTML = html;
     });
+    document.getElementById('product').innerHTML = html;
+}
 
+/**CLASS**/
 
+//local storage
+/*class Storage {
+    static saveProducts(products) {
+        localStorage.setItem("products", JSON.stringify(products));
+    }
+}*/
