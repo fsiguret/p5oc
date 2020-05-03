@@ -13,9 +13,6 @@ class Request {
         });
     }
 }
-
-
-
 /*exports.request = (url) => {
     fetch(url).then(function (response) {
         if(response.ok) {
