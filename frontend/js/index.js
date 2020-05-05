@@ -4,6 +4,7 @@ let display = new Display();
 
 request.requestHttpGet()
     .then(data => {
+        //show all articles
         display.printAllProducts(data);
     })
     .catch(function (error) {

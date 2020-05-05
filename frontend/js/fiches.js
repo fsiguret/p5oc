@@ -14,6 +14,7 @@ let request = new Request(urlProducts + id);
 
 request.requestHttpGet()
     .then(product => {
+        //display an article according to its id
         display.printProduct(product);
         display.changeTitle(product.name + ' - Orinoco');
     })
