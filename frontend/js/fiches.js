@@ -12,7 +12,7 @@ if(searchParams.has('id')) {
 
 let request = new Request(urlProducts + id);
 
-request.requestHttpGet()
+request.getProductAsync()
     .then(product => {
         //display an article according to its id
         display.printProduct(product);
