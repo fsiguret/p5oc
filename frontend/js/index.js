@@ -8,6 +8,6 @@ request.getProductAsync()
         display.printAllProducts(data);
     })
     .catch(function (error) {
-        console.log('Il y a eu un problème avec la génération des articles' + error.message);
+        console.log('Il y a eu un problème avec la génération des articles ' + error.message);
     });
 

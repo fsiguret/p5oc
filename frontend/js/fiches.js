@@ -19,5 +19,5 @@ request.getProductAsync()
         display.changeTitle(product.name + ' - Orinoco');
     })
     .catch(function (error) {
-        console.log('Il y a eu un problème avec la génération de l\'article' + error.message);
+        console.log('Il y a eu un problème avec la génération de l\'article ' + error.message);
     });
