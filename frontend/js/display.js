@@ -18,6 +18,7 @@ class Display {
         this.printColorsProduct(product);
         this.printParagraphToProduct(product.price, 'Prix : ');
         this.printParagraphToProduct(product.description, 'Description : ');
+        this.printButton('Ajouter au panier');
     }
 
     generateArticle() {
@@ -65,6 +66,13 @@ class Display {
                 btn.appendChild(color);
                 document.getElementById('colors').appendChild(btn);
         });
+    }
+
+    printButton(value) {
+        let btn = document.createElement('button');
+        let btnText = document.createTextNode(value);
+        btn.appendChild(btnText);
+        this.printOnArticle(btn);
     }
 
     changeTitle(title) {
