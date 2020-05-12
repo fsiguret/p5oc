@@ -21,5 +21,3 @@ request.getProductAsync()
     .catch(function (error) {
         console.log('Il y a eu un problème avec la génération de l\'article : ' + error.message);
     });
-
-

@@ -20,10 +20,3 @@ class DisplayProducts extends GenerateElements {
         this.generateButton('Ajouter au panier', product.name);
     }
 }
-
-
-
-
-
-
-

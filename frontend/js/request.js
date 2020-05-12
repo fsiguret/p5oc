@@ -5,7 +5,6 @@ class Request {
 
     async getProductAsync() {
         let response = await fetch(this.url);
-        let data = await response.json();
-        return data;
+        return await response.json();
     }
 }
