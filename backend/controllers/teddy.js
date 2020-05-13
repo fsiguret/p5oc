@@ -21,7 +21,7 @@ exports.getOneTeddy = (req, res, next) => {
   Teddy.findById(req.params.id).then(
     (teddy) => {
       if (!teddy) {
-        return res.status(404).send(new Error('Teddy not found!'));
+        return res.status(404).send(new Error('App not found!'));
       }
       teddy.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + teddy.imageUrl;
       res.status(200).json(teddy);
