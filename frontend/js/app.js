@@ -59,6 +59,7 @@ class TeddyView {
                 article.id = data.name;
                 this. generateElementText('h2', data.name, idSection);
                 this.generateOnLastChild('product', this.generateImg(data.imageUrl, 'images'));
+                this.generateDropdown('product', data.colors, 'Couleurs');
                 this.generateElementText('p', 'Prix : ' + this.transformPrice(data), idSection);
                 this.generateElementText('p', 'Description : ' + data.description, idSection);
                 this.generateButton('Ajouter au panier', data.name);
@@ -105,13 +106,33 @@ class TeddyView {
     }
 
 
-    generateListButton(list, idDiv, id) {
+    generateDropdown(id, colors, textDropDown) {
+        let dropDown = document.createElement('div');
+        dropDown.className = "dropdown";
 
-        this.generateDiv(idDiv, id)
+        let btnDrop = document.createElement('button');
+        let btnText = document.createTextNode(textDropDown);
 
-        list.forEach(data => {
-            this.generateButton(data, idDiv);
-        });
+        btnDrop.className = "btnDrop";
+        btnDrop.addEventListener("click", function () {teddyApp.showDropDown()});
+        btnDrop.appendChild(btnText);
+        dropDown.appendChild(btnDrop);
+
+        let myDropDown = document.createElement('div');
+        myDropDown.id = "myDropDown";
+        myDropDown.className = "dropdown-content"
+
+        dropDown.appendChild(myDropDown);
+
+        colors.forEach(data => {
+            let btnColor = document.createElement('button');
+            let btnText = document.createTextNode(data);
+            btnColor.appendChild(btnText);
+
+            myDropDown.appendChild(btnColor);
+        })
+
+        this.generateOnLastChild(id, dropDown);
     }
 
     generateButton(text, id) {
@@ -121,14 +142,6 @@ class TeddyView {
         document.getElementById(id).appendChild(btn);
         return btn;
     }
-
-    generateDiv(idDiv, id) {
-        let div = document.createElement('div');
-        div.id = idDiv;
-
-        this.generateOnLastChild(id, div);
-    }
-
 }
 
 const teddyView = new TeddyView();
@@ -151,6 +164,10 @@ class TeddyController {
 
     getProduct(id) {
         return teddyModel.getProductAsync(id);
+    }
+
+    showDropDown() {
+        document.getElementById("myDropdown").classList.toggle("show");
     }
 
 }
