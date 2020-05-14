@@ -47,6 +47,8 @@ class TeddyView {
                     this.generateLinkImg(href, product.imageUrl, 'images', idSection);
                     this.generateElementText('p', 'Prix : ' + this.transformPrice(product), idSection);
                     this.generateElementText('p', 'Description : ' + product.description, idSection);
+                    this.generateLinkButton('Détail du produit', 'product', href);
+
                 })
             })
     }
@@ -141,6 +143,14 @@ class TeddyView {
         btn.appendChild(btnText);
         document.getElementById(id).appendChild(btn);
         return btn;
+    }
+
+    generateLinkButton(textButton, id, href) {
+        let btn = this.generateButton(textButton, id);
+        let a = document.createElement('a');
+        a.href = href;
+        a.appendChild(btn);
+        this.generateOnLastChild(id, a);
     }
 }
 
