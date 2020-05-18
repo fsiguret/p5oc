@@ -36,14 +36,36 @@ class TeddyModel {
         }
     }
 
+    //private properties
+    cart = [];
+
     //Save cart
-    saveCart(data) {
-        localStorage.setItem('shoppingCart', data);
+    saveCart(cart) {
+        localStorage.setItem('shoppingCart', JSON.stringify(cart));
     }
 
     //load cart
     loadCart() {
         this.cart = JSON.parse(localStorage.getItem('shoppingCart'));
+        return this.cart;
+    }
+
+    //add to cart
+    addToCart(data) {
+        this.cart.forEach(item => {
+            if(item._id.includes(data._id)) {
+                if(item.nb) {
+                    item.nb ++;
+                    this.saveCart(this.cart);
+                }
+            }
+        })
+        if (!data.nb) {
+            data.nb = 1;
+            this.cart.push(data)
+            this.saveCart(this.cart);
+        }
+        //localStorage.clear();
     }
 }
 
@@ -59,11 +81,21 @@ class TeddyView {
         let searchParams = new URLSearchParams(url.search);
         let id = '';//product id after search.
 
+        let btnCart = document.getElementById('addCart');
+
+        if(btnCart) {
+            teddyApp.showShoppingCart(btnCart);
+        }
+
         if(searchParams.has('id')) {
             id = searchParams.get('id');
             this.renderProduct(id);
         } else {
             this.renderProductList();
+        }
+
+        if(localStorage.getItem("shoppingCart") != null) {
+            teddyModel.loadCart();
         }
     }
 
@@ -102,7 +134,10 @@ class TeddyView {
                 this.generateDropdown('product', data.colors, 'Couleurs');
                 this.generateElementText('p', 'Prix : ' + this.transformPrice(data), idSection);
                 this.generateElementText('p', 'Description : ' + data.description, idSection);
-                this.generateLinkButton('Ajouter au panier', data.name, "panier.html");
+                let btnCart = this.generateButton('Ajouter au panier', data.name);
+                btnCart.addEventListener("click", function () {
+                    teddyApp.addItemToCart(data);
+                })
                 document.title = data.name + ' - Orinoco';
             })
     }
@@ -200,6 +235,10 @@ class TeddyView {
         document.getElementById('product').appendChild(h2);
         setTimeout(() => document.location.href = "../index.html", 4000);
     }
+
+    generateCart() {
+
+    }
 }
 
 const teddyView = new TeddyView();
@@ -228,8 +267,14 @@ class TeddyController {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
-    addToCart() {
+    addItemToCart(data) {
+        teddyModel.addToCart(data);
+    }
 
+    showShoppingCart(btnCart) {
+        btnCart.addEventListener('click', function () {
+            this.teddyView.generateCart();
+        })
     }
 }
 
