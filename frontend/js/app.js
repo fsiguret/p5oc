@@ -67,6 +67,9 @@ class TeddyModel {
         }
         //localStorage.clear();
     }
+    removeItemFromCartAll() {
+        localStorage.clear();
+    }
 }
 
 const teddyModel = new TeddyModel("http://localhost:3000/api/teddies/");
