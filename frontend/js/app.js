@@ -5,14 +5,45 @@ class TeddyModel {
     constructor(url) {
         this.url = url;
     }
+
+    //get all products
     async getProductsAsync() {
         let response = await fetch(this.url);
         return await response.json();
     }
 
+    //get one product if ID is present
     async getProductAsync(id) {
-        let response = await fetch(this.url + id);
-        return await response.json();
+
+        let ifId = false;
+
+        //detect if ID is present
+        await this.getProductsAsync()
+            .then(data => {
+                data.forEach(product => {
+                    if(product._id.includes(id)) {
+                        ifId = true;
+                    }
+                })
+            });
+
+        // if ID is present
+        if (ifId) {
+            let response = await fetch(this.url + id);
+            return await response.json();
+        } else {
+            teddyView.productDoesNotExist();
+        }
+    }
+
+    //Save cart
+    saveCart(data) {
+        localStorage.setItem('shoppingCart', data);
+    }
+
+    //load cart
+    loadCart() {
+        this.cart = JSON.parse(localStorage.getItem('shoppingCart'));
     }
 }
 
@@ -28,7 +59,7 @@ class TeddyView {
         let searchParams = new URLSearchParams(url.search);
         let id = '';//product id after search.
 
-        if( searchParams.has('id')) {
+        if(searchParams.has('id')) {
             id = searchParams.get('id');
             this.renderProduct(id);
         } else {
@@ -36,6 +67,7 @@ class TeddyView {
         }
     }
 
+    //display all products
     renderProductList() {
         teddyApp.getProducts()
             .then(data => {
@@ -43,16 +75,22 @@ class TeddyView {
                     const idSection = 'product';
                     let href = "html/product.html?id=" + product._id;
                     this.generateElementById('article', idSection);
-                    this. generateElementText('h2', product.name, idSection);
+                    this.generateElementText('h2', product.name, idSection);
                     this.generateLinkImg(href, product.imageUrl, 'images', idSection);
                     this.generateElementText('p', 'Prix : ' + this.transformPrice(product), idSection);
                     this.generateElementText('p', 'Description : ' + product.description, idSection);
                     this.generateLinkButton('Détail du produit', 'product', href);
-
                 })
+            })
+            .catch(function (error) {
+                let h2 = document.createElement('h2');
+                let text = document.createTextNode('Le Site est en maintenance ! Revenez plus tard !');
+                h2.appendChild(text);
+                document.getElementById('product').appendChild(h2);
             })
     }
 
+    //display one product
     renderProduct(id) {
         teddyApp.getProduct(id)
             .then(data => {
@@ -64,7 +102,8 @@ class TeddyView {
                 this.generateDropdown('product', data.colors, 'Couleurs');
                 this.generateElementText('p', 'Prix : ' + this.transformPrice(data), idSection);
                 this.generateElementText('p', 'Description : ' + data.description, idSection);
-                this.generateButton('Ajouter au panier', data.name);
+                this.generateLinkButton('Ajouter au panier', data.name, "panier.html");
+                document.title = data.name + ' - Orinoco';
             })
     }
 
@@ -107,7 +146,6 @@ class TeddyView {
         elem.appendChild(element);
     }
 
-
     generateDropdown(id, colors, textDropDown) {
         let dropDown = document.createElement('div');
         dropDown.className = "dropdown";
@@ -116,7 +154,9 @@ class TeddyView {
         let btnText = document.createTextNode(textDropDown);
 
         btnDrop.className = "btnDrop";
-        btnDrop.addEventListener("click", function () {teddyApp.showDropDown()});
+        btnDrop.addEventListener("click", function () {
+            teddyApp.showDropDown()
+        });
         btnDrop.appendChild(btnText);
         dropDown.appendChild(btnDrop);
 
@@ -152,6 +192,14 @@ class TeddyView {
         a.appendChild(btn);
         this.generateOnLastChild(id, a);
     }
+
+    productDoesNotExist() {
+        let h2 = document.createElement('h2');
+        let text = document.createTextNode("Ce produit n'éxiste pas ou n'éxiste plus. Vous allez être redirigé vers la page principale !");
+        h2.appendChild(text);
+        document.getElementById('product').appendChild(h2);
+        setTimeout(() => document.location.href = "../index.html", 4000);
+    }
 }
 
 const teddyView = new TeddyView();
@@ -180,6 +228,9 @@ class TeddyController {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
+    addToCart() {
+
+    }
 }
 
 const teddyApp = new TeddyController(teddyView);
