@@ -70,6 +70,10 @@ class TeddyModel {
     removeItemFromCartAll() {
         localStorage.clear();
     }
+
+    getCart() {
+        return this.cart;
+    }
 }
 
 const teddyModel = new TeddyModel("http://localhost:3000/api/teddies/");
@@ -84,21 +88,22 @@ class TeddyView {
         let searchParams = new URLSearchParams(url.search);
         let id = '';//product id after search.
 
-        let btnCart = document.getElementById('addCart');
+        let cart = document.getElementById('cart');
+        let product = document.getElementById('product');
 
-        if(btnCart) {
-            teddyApp.showShoppingCart(btnCart);
+        if(localStorage.getItem("shoppingCart") != null) {
+            teddyModel.loadCart();
+        }
+
+        if(cart) {
+            this.renderCart();
         }
 
         if(searchParams.has('id')) {
             id = searchParams.get('id');
             this.renderProduct(id);
-        } else {
+        } else if (product){
             this.renderProductList();
-        }
-
-        if(localStorage.getItem("shoppingCart") != null) {
-            teddyModel.loadCart();
         }
     }
 
@@ -143,6 +148,40 @@ class TeddyView {
                 })
                 document.title = data.name + ' - Orinoco';
             })
+    }
+
+    renderCart() {
+        let cart = teddyModel.getCart();
+        console.log(cart);
+        cart.forEach(data => {
+            let article = this.generateElementById('article', 'cart');
+            article.id = data._id;
+            let img = this.generateImg(data.imageUrl,"images");
+            document.getElementById(data._id).appendChild(img);
+
+            //form nb article
+            let form = document.createElement('form');
+            let paragraph = document.createElement('label');
+            paragraph.htmlFor = "nbItem";
+            let textLabel = document.createTextNode("Nombre d'article : ");
+            paragraph.appendChild(textLabel);
+
+            form.appendChild(paragraph);
+
+            let input = document.createElement('input');
+            input.type = "number";
+            input.id = "nbItem";
+            input.value = data.nb;
+
+            form.appendChild(input);
+
+            document.getElementById(data._id).appendChild(form);
+
+            //button delete article
+           let btnDelete = this.generateButton("Supprimer", data._id);
+
+
+        })
     }
 
     //======methodes======
@@ -238,10 +277,6 @@ class TeddyView {
         document.getElementById('product').appendChild(h2);
         setTimeout(() => document.location.href = "../index.html", 4000);
     }
-
-    generateCart() {
-
-    }
 }
 
 const teddyView = new TeddyView();
@@ -274,10 +309,8 @@ class TeddyController {
         teddyModel.addToCart(data);
     }
 
-    showShoppingCart(btnCart) {
-        btnCart.addEventListener('click', function () {
-            this.teddyView.generateCart();
-        })
+    deleteItem() {
+        teddyModel.removeItem();
     }
 }
 
