@@ -8,11 +8,23 @@
     <body>
         <header>
             <a href="../index.html"><img src="" alt="logo Orinoco"></a>
-            <a id="countCart" href="panier.html">Panier</a>
+            <a href="panier.html">Panier</a>
         </header>
         <main>
-            <section id="cart">
+            <section>
                 <h1>Mon Panier</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image de l'article</th>
+                            <th>Nom de l'article</th>
+                            <th>Prix</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart"></tbody>
+                    <tfoot></tfoot>
+                </table>
             </section>
             <section>
                 <h2>Passer commande</h2>
@@ -34,6 +46,9 @@
         <footer>
             <p>&copy; 2020 Orinoco<p>
         </footer>
-        <script src="../js/app.js"></script>
+        <script src="../js/Model/Model.js"></script>
+        <script src="../js/view/View.js"></script>
+        <script src="../js/controller/CartController.js"></script>
+        <script src="../js/shoppingCart.js"></script>
     </body>
 </html>

@@ -1,0 +1,1 @@
+const app = new CartController(new Model("http://localhost:3000/api/teddies/"), new View());

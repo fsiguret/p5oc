@@ -3,12 +3,7 @@ class IndexController {
         this.model = model;
         this.view = view;
 
-        //if itemList return true display item list
-        if(this.model.itemList) {
-            this.displayListItem(this.model.itemList);
-        } else {
-            this.errorServer();
-        }
+        this.displayListItem(this.model.getProductsAsync());
     }
 
     //display list item
@@ -16,12 +11,15 @@ class IndexController {
         response.then(data => {
             data.forEach(product => {
                 this.view.createListItem(product);
+                this.view.bindAddToCart(this.handleAddToCart, product);
             })
-        })
+        }).catch(error =>
+            //display error server
+            this.view.displayErrorServer()
+        );
     }
 
-    //display error server
-    errorServer() {
-        this.view.displayErrorServer();
+    handleAddToCart = data => {
+        this.model.addToCart(data);
     }
 }
