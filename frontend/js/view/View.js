@@ -2,6 +2,7 @@ class View {
     constructor() {
         this.btnAdd = this.createElement("button", "addCart");
         this.btnDelete = this.createElement("button", "deleteItem");
+        this.form = this.getElementById("myForm");
         this.nbItem = 0;
     }
 
@@ -44,7 +45,7 @@ class View {
 
         //The price of item
         this.price = this.createElement("p");
-        this.price.textContent = "Prix : " + this.transformPrice(data);
+        this.price.textContent = "Prix : " + this.transformPrice(data.price);
 
         //The description of item
         this.description = this.createElement("p");
@@ -92,7 +93,7 @@ class View {
 
         //The price of item
         this.price = this.createElement("p");
-        this.price.textContent = "Prix : " + this.transformPrice(data);
+        this.price.textContent = "Prix : " + this.transformPrice(data.price);
 
         //The description of item
         this.description = this.createElement("p");
@@ -108,7 +109,8 @@ class View {
         this.article.append(this.name, this.img, this.dropDown, this.price, this.description, this.addA);
     }
 
-    createShoppingCart(data) {
+    //create the shopping cart
+    createShoppingCart(data, totalPrice) {
         //the element root
         let cart = this.getElementById("cart");
 
@@ -122,7 +124,7 @@ class View {
         //the row elements
         let tdImg = this.createElement("td");
         let tdName = this.createElement("td");
-        let tdPrice = this.createElement("td");
+        let tdPrice = this.createElement("td","price");
         let tdDelete = this.createElement("td");
 
         //img of article
@@ -131,7 +133,7 @@ class View {
         tdImg.append(imgArticle);
 
         tdName.textContent = data.name;
-        tdPrice.textContent = this.transformPrice(data);
+        tdPrice.textContent = this.transformPrice(data.price);
 
         this.btnDelete = this.createElement("button", "deleteItem");
         this.btnDelete.textContent = "Supprimer";
@@ -139,11 +141,26 @@ class View {
 
         //append all elements
         tr.append(tdImg, tdName, tdPrice, tdDelete);
+
+        this.displayTotal(totalPrice);
+    }
+
+    displayTotal(totalPrice) {
+        let tfoot = this.getElementById("total");
+
+        this.deleteDisplayCart("total");
+
+        let text = this.createElement("td");
+        let price = this.createElement("td");
+        text.textContent = "Total de votre commande";
+
+        price.textContent = this.transformPrice(totalPrice);
+        tfoot.append(text,price);
     }
 
     //Set the price to local region
     transformPrice(data) {
-        return new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(data.price / 100);
+        return new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(data / 100);
     }
 
     //the Error message when server error
@@ -193,12 +210,19 @@ class View {
     }
 
     //suppr all item
-    deleteDisplayCart() {
-        let cart = this.getElementById("cart");
+    deleteDisplayCart(id) {
+        let cart = this.getElementById();
+
+        if(id) {
+            cart = this.getElementById(id);
+        } else{
+            cart = this.getElementById("cart");
+            this.nbItem = 0;
+        }
+
         while(cart.firstChild) {
             cart.removeChild(cart.firstChild);
         }
-        this.nbItem = 0;
     }
 
     //Generate a button dropdown
@@ -244,6 +268,24 @@ class View {
             if(event.target.className === "deleteItem") {
                 const id = parseInt(event.target.parentElement.parentElement.id);
                 handler(id);
+            }
+        })
+    }
+
+    bindSendOrder(handler) {
+        this.form.addEventListener("submit", event => {
+            event.preventDefault();
+            handler(this.form);
+            this._resetInput();
+
+        })
+    }
+
+    //Private methods
+    _resetInput() {
+        this.form.childNodes.forEach(node => {
+            if(node.nodeName === "INPUT") {
+                node.value = '';
             }
         })
     }

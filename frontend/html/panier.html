@@ -23,20 +23,20 @@
                         </tr>
                     </thead>
                     <tbody id="cart"></tbody>
-                    <tfoot></tfoot>
+                    <tfoot id="total"></tfoot>
                 </table>
             </section>
             <section>
                 <h2>Passer commande</h2>
-                <form>
-                    <label for="prenom">Prénom</label>
-                    <input id="prenom" type="text" required pattern="[A-Za-z]+">
-                    <label for="nom">Nom</label>
-                    <input id="nom" type="text" required pattern="[A-Za-z]+">
+                <form id="myForm">
+                    <label for="firstName">Prénom</label>
+                    <input id="firstName" type="text" required pattern="[A-Za-z]+">
+                    <label for="lastName">Nom</label>
+                    <input id="lastName" type="text" required pattern="[A-Za-z]+">
                     <label for="address">Adresse</label>
                     <input id="address" type="text" required>
-                    <label for="ville">Ville</label>
-                    <input id="ville" type="text" required pattern="[A-Za-z]+">
+                    <label for="city">Ville</label>
+                    <input id="city" type="text" required pattern="[A-Za-z]+">
                     <label for="email">Adresse électronique</label>
                     <input id="email" type="email" required>
                     <button>Commander</button>
