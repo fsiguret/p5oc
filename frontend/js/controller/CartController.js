@@ -10,8 +10,8 @@ class CartController {
     }
 
     displayCart = (data, totalPrice, responseServer) => {
-        this.view.deleteDisplayCart();
         responseServer.then(response => {
+            this.view.deleteDisplayCart();
             if(data.length > 0) {
                 data.forEach(product => {
                     this.view.createShoppingCart(product, totalPrice);
