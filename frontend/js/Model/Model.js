@@ -1,11 +1,14 @@
 class Model {
     constructor(url) {
         this.url = url;
-        this.cart = this.loadCart() || [];
+        this.cart = this.loadLocalstorage("shoppingCart") || [];
+        this.orderData = this.loadLocalstorage("order") || {};
         this.totalPrice = 0;
-
-        this.orderData = this.loadOrder() || {};
     }
+
+    //=========
+    //REQUESTS=
+    //=========
 
     //get all products
     async getProductsAsync() {
@@ -25,8 +28,13 @@ class Model {
             method : 'POST',
             body : JSON.stringify(data),
             headers: {'Content-type': 'application/json'}
-        })
+        });
         return await response.json();
+    }
+
+    //load shopping cart
+    loadLocalstorage(key){
+        return JSON.parse(localStorage.getItem(key));
     }
 
     //add item to shopping Cart
@@ -35,17 +43,7 @@ class Model {
             .then(data => {
                 this.cart.push(data);
                 this.saveCart(this.cart);
-            })
-    }
-
-    //load shopping cart
-    loadCart(){
-        return JSON.parse(localStorage.getItem("shoppingCart"));
-    }
-
-    //save cart
-    saveCart(cart) {
-        localStorage.setItem("shoppingCart", JSON.stringify(cart));
+            });
     }
 
     //delete one item of localstorage
@@ -61,15 +59,17 @@ class Model {
             this.saveCart(this.cart);
             elementSuppr.forEach(data => {
                 this.totalPrice = this.totalPrice - data.price;
-            })
+            });
         }
         if(this.cart.length === 0) {
             this.deleteItemLocalStorage("shoppingCart");
         }
-
         this.onCartChanged(this.cart, this.totalPrice);
     }
 
+    //=======
+    //Getter=
+    //=======
     getCart() {
         return this.cart;
     }
@@ -77,22 +77,27 @@ class Model {
     getTotal() {
         this.cart.forEach(product => {
             this.totalPrice = this.totalPrice + product.price;
-        })
+        });
         return this.totalPrice;
+    }
+
+    getOrder() {
+        return this.orderData;
+    }
+
+    //=====
+    //SAVE=
+    //=====
+
+    //save cart
+    saveCart(cart) {
+        localStorage.setItem("shoppingCart", JSON.stringify(cart));
     }
 
     //save order to local storage
     saveOrder(order) {
         localStorage.setItem("order", JSON.stringify(order));
         this.deleteItemLocalStorage("shoppingCart");
-    }
-
-    loadOrder() {
-        return JSON.parse(localStorage.getItem("order"));
-    }
-
-    getOrder() {
-        return this.orderData;
     }
 
     // send order to api
@@ -106,27 +111,30 @@ class Model {
                     let id = node.id;
                     contact[id] = node.value;
                 }
-            })
+            });
+
             this.cart.forEach(product => {
                 products.push(product._id);
-            })
+            });
 
             const order = {contact,products};
 
             this.postOrderAsync(order)
                 .then(response => {
                     this.orderData = response;
-                    console.log(this.orderData)
                     this.saveOrder(this.orderData);
                     this.displayConfirmPage();
-                })
+                });
         }
     }
 
-    //BIND
+    //=====
+    //BIND=
+    //=====
     bindOnOrderConfirm(callback) {
         this.displayConfirmPage = callback;
     }
+
     bindOnCartChanged(callback) {
         this.onCartChanged = callback;
     }

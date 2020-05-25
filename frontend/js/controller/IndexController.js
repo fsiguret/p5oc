@@ -12,11 +12,11 @@ class IndexController {
             data.forEach(product => {
                 this.view.createListItem(product);
                 this.view.bindAddToCart(this.handleAddToCart, product);
-            })
-        }).catch(error =>
-            //display error server
-            this.view.displayErrorServer("product")
-        );
+            });
+        }).catch(error => {
+                //display error server
+                this.view.displayErrorServer("product");
+        });
     }
 
     handleAddToCart = data => {

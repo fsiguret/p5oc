@@ -17,16 +17,16 @@ class ProductController {
                     if (product._id.includes(this.id)) {
                         ifId = true;
                     }
-                })
+                });
                 //ifId is present
                 if (ifId) {
                     this.displayItem(this.model.getProductAsync(this.id));
                 } else {
                     this.errorIdNotFound();
                 }
-            }).catch(error =>
-                this.displayErrorSystem()
-            );
+            }).catch(error => {
+                    this.displayErrorSystem()
+            });
         } else {
             this.errorIdNotFound();
         }
@@ -37,10 +37,10 @@ class ProductController {
         response.then(data => {
             this.view.createItem(data);
             this.view.bindAddToCart(this.handleAddToCart, data);
-        }).catch(error =>
-            //display error server
-            this.view.displayErrorServer()
-        );
+        }).catch(error => {
+                //display error server
+                this.view.displayErrorServer();
+        });
     }
 
     //display error id
@@ -56,6 +56,5 @@ class ProductController {
 
     handleAddToCart = id => {
         this.model.addToCart(id);
-        console.log(id)
     }
 }

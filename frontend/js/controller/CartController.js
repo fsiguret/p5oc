@@ -9,7 +9,6 @@ class CartController {
         this.model.bindOnOrderConfirm(this.displayConfirmPage);
     }
 
-
     firstDisplayCart = (data, totalPrice, responseServer) => {
         if(data.length > 0) {
             responseServer.then(response => {
@@ -17,10 +16,10 @@ class CartController {
                 data.forEach(product => {
                     this.view.generateCart(product);
                     this.view.bindDeleteToCart(this.handleDeleteToCart);
-                })
+                });
             }).catch(error => {
                 this.view.displayErrorServer("product");
-            })
+            });
         }else {
             this.view.displayCartError();
             this.view.deleteDisplayCart("total");
@@ -34,12 +33,11 @@ class CartController {
                 this.view.generateCart(product);
                 this.view.bindDeleteToCart(this.handleDeleteToCart);
                 this.view.displayTotal(totalPrice);
-            })
+            });
         }else {
             this.view.deleteDisplayCart("product");
             this.view.displayCartError();
         }
-
     }
 
     displayConfirmPage = data => {

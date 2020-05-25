@@ -10,6 +10,6 @@ class ConfirmationController {
             this.view.createConfirmationOrder(data);
         }).catch(error => {
             this.view.displayErrorServer("confirmOrder")
-        })
+        });
     }
 }
