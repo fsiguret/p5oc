@@ -66,7 +66,8 @@ class Model {
         if(this.cart.length === 0) {
             this.deleteItemLocalStorage("shoppingCart");
         }
-        this.displayCart(this.cart, this.totalPrice, this.getProductsAsync());
+
+        this.onCartChanged(this.cart, this.totalPrice);
     }
 
     getCart() {
@@ -127,6 +128,6 @@ class Model {
         this.displayConfirmPage = callback;
     }
     bindOnCartChanged(callback) {
-        this.displayCart = callback;
+        this.onCartChanged = callback;
     }
 }

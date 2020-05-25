@@ -111,51 +111,90 @@ class View {
 
     //create the shopping cart
     createShoppingCart(data, totalPrice) {
+
         //the element root
-        let cart = this.getElementById("cart");
+        let cart = this.getElementById("product");
 
-        //the line element
-        let tr = this.createElement("tr");
-        tr.id = this.nbItem++;
+        //the title
+        let title = this.createElement("h1");
+        title.textContent = "Mon Panier";
 
-        //append line on tbody
-        cart.append(tr);
+        //the array
+        let table = this.createElement("table");
+        let thead = this.createElement("thead");
+        let tbody = this.createElement("tbody");
+        tbody.id = "cart";
 
-        //the row elements
+        table.append(thead, tbody);
+
+        let textPrice = this.createElement("p");
+        textPrice.id = "total";
+
+        //the line head element
+        let trHead = this.createElement("tr");
+
+        //the row head elements
+        let thImg = this.createElement("th");
+        thImg.textContent = "Image de l'article"
+        let thName = this.createElement("th");
+        thName.textContent = "Nom de l'article";
+        let thPrice = this.createElement("th");
+        thPrice.textContent = "Prix";
+        let thAction = this.createElement("th");
+        thAction.textContent = "Actions";
+
+        //append all th in trhead
+        trHead.append(thImg, thName, thPrice, thAction);
+        //append thead and tbody on table
+
+        thead.append(trHead);
+
+        //append all in cart
+        cart.append(title, table, textPrice);
+
+        //display total
+        this.displayTotal(totalPrice);
+
+    }
+
+    generateCart(product) {
+        let tbody = this.getElementById("cart");
+
+        //the line body element
+        let trBody = this.createElement("tr")
+        trBody.id = this.nbItem++;
+
+        //the row body elements
         let tdImg = this.createElement("td");
-        let tdName = this.createElement("td");
-        let tdPrice = this.createElement("td","price");
-        let tdDelete = this.createElement("td");
 
         //img of article
         let imgArticle = this.createElement("img", "images");
-        imgArticle.src = data.imageUrl;
+        imgArticle.src = product.imageUrl;
         tdImg.append(imgArticle);
 
-        tdName.textContent = data.name;
-        tdPrice.textContent = this.transformPrice(data.price);
+        let tdName = this.createElement("td");
+        tdName.textContent = product.name;
 
+        let tdPrice = this.createElement("td");
+        tdPrice.textContent = this.transformPrice(product.price);
+
+        let tdDelete = this.createElement("td");
         this.btnDelete = this.createElement("button", "deleteItem");
         this.btnDelete.textContent = "Supprimer";
         tdDelete.append(this.btnDelete);
+        //append all td in trBody
+        trBody.append(tdImg, tdName, tdPrice, tdDelete);
 
-        //append all elements
-        tr.append(tdImg, tdName, tdPrice, tdDelete);
-
-        this.displayTotal(totalPrice);
+        //append trbody in tbody
+        tbody.append(trBody);
     }
 
     displayTotal(totalPrice) {
-        let tfoot = this.getElementById("total");
+        const total = this.getElementById("total");
 
-        this.deleteDisplayCart("total");
-
-        let text = this.createElement("td");
-        let price = this.createElement("td");
-        text.textContent = "Total de votre commande";
-
-        price.textContent = this.transformPrice(totalPrice);
-        tfoot.append(text,price);
+        if(total) {
+            total.textContent = "Total de votre commande : " + this.transformPrice(totalPrice);
+        }
     }
 
     //Set the price to local region
@@ -203,25 +242,24 @@ class View {
 
     //diplay error message when the cart is empty
     displayCartError() {
-        let app = this.getElementById("cart");
-        let tr = this.createElement("tr");
-        tr.textContent = "Votre panier est vide !";
-        app.append(tr);
+        let app = this.getElementById("product");
+        let p = this.createElement("p");
+        p.textContent = "Votre panier est vide !";
+        app.append(p);
     }
 
     //suppr all item
     deleteDisplayCart(id) {
-        let cart = this.getElementById();
+        let cart = this.getElementById(id);
 
-        if(id) {
-            cart = this.getElementById(id);
-        } else{
-            cart = this.getElementById("cart");
-            this.nbItem = 0;
-        }
+        if(cart != null) {
+            if(id === "cart") {
+                this.nbItem = 0;
+            }
 
-        while(cart.firstChild) {
-            cart.removeChild(cart.firstChild);
+            while(cart.firstChild) {
+                cart.removeChild(cart.firstChild);
+            }
         }
     }
 
@@ -309,8 +347,6 @@ class View {
 
             //append TR in tbody for each article;
             tbody.append(tr);
-
-
         })
 
         //append thead and tbody in table

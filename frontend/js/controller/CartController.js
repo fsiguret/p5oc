@@ -3,27 +3,42 @@ class CartController {
         this.model = model;
         this.view = view;
 
-        this.displayCart(this.model.getCart(), this.model.getTotal(), this.model.getProductsAsync());
-        this.model.bindOnCartChanged(this.displayCart);
+        this.firstDisplayCart(this.model.getCart(), this.model.getTotal(), this.model.getProductsAsync());
+        this.model.bindOnCartChanged(this.onCartChanged);
         this.view.bindSendOrder(this.handleSendOrder);
-        this.model.bindOnOrderConfirm((this.displayConfirmPage));
+        this.model.bindOnOrderConfirm(this.displayConfirmPage);
     }
 
-    displayCart = (data, totalPrice, responseServer) => {
-        responseServer.then(response => {
-            this.view.deleteDisplayCart();
-            if(data.length > 0) {
+
+    firstDisplayCart = (data, totalPrice, responseServer) => {
+        if(data.length > 0) {
+            responseServer.then(response => {
+                this.view.createShoppingCart(data, totalPrice);
                 data.forEach(product => {
-                    this.view.createShoppingCart(product, totalPrice);
+                    this.view.generateCart(product);
                     this.view.bindDeleteToCart(this.handleDeleteToCart);
                 })
-            }else {
-                this.view.displayCartError();
-                this.view.deleteDisplayCart("total");
-            }
-        }).catch(error => {
-          this.view.displayErrorServer("product");
-        })
+            }).catch(error => {
+                this.view.displayErrorServer("product");
+            })
+        }else {
+            this.view.displayCartError();
+            this.view.deleteDisplayCart("total");
+        }
+    }
+
+    onCartChanged = (data, totalPrice) => {
+        if(data.length > 0) {
+            this.view.deleteDisplayCart("cart");
+            data.forEach(product => {
+                this.view.generateCart(product);
+                this.view.bindDeleteToCart(this.handleDeleteToCart);
+                this.view.displayTotal(totalPrice);
+            })
+        }else {
+            this.view.deleteDisplayCart("product");
+            this.view.displayCartError();
+        }
 
     }
 
