@@ -15,7 +15,7 @@ class IndexController {
             })
         }).catch(error =>
             //display error server
-            this.view.displayErrorServer()
+            this.view.displayErrorServer("product")
         );
     }
 

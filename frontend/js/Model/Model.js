@@ -4,7 +4,7 @@ class Model {
         this.cart = this.loadCart() || [];
         this.totalPrice = 0;
 
-        this.orderData = {};
+        this.orderData = this.loadOrder() || {};
     }
 
     //get all products
@@ -29,30 +29,31 @@ class Model {
         return await response.json();
     }
 
-    //save shopping Cart
+    //add item to shopping Cart
     addToCart(id) {
         this.getProductAsync(id)
             .then(data => {
                 this.cart.push(data);
-                localStorage.setItem("shoppingCart", JSON.stringify(this.cart));
+                this.saveCart(this.cart);
             })
     }
 
+    //load shopping cart
     loadCart(){
         return JSON.parse(localStorage.getItem("shoppingCart"));
     }
 
+    //save cart
     saveCart(cart) {
-
         localStorage.setItem("shoppingCart", JSON.stringify(cart));
-
     }
 
-    deleteCart() {
-        localStorage.clear();
-
+    //delete one item of localstorage
+    deleteItemLocalStorage(item) {
+        localStorage.removeItem(item);
     }
 
+    //delete item to cart
     deleteToCart(id) {
         let elementSuppr = this.cart.splice(id,1);
 
@@ -63,9 +64,9 @@ class Model {
             })
         }
         if(this.cart.length === 0) {
-            this.deleteCart();
+            this.deleteItemLocalStorage("shoppingCart");
         }
-        this.displayCart(this.cart, this.totalPrice);
+        this.displayCart(this.cart, this.totalPrice, this.getProductsAsync());
     }
 
     getCart() {
@@ -79,6 +80,21 @@ class Model {
         return this.totalPrice;
     }
 
+    //save order to local storage
+    saveOrder(order) {
+        localStorage.setItem("order", JSON.stringify(order));
+        this.deleteItemLocalStorage("shoppingCart");
+    }
+
+    loadOrder() {
+        return JSON.parse(localStorage.getItem("order"));
+    }
+
+    getOrder() {
+        return this.orderData;
+    }
+
+    // send order to api
     sendOrder(form) {
         if(this.cart.length > 0) {
             const contact = {};
@@ -93,14 +109,23 @@ class Model {
             this.cart.forEach(product => {
                 products.push(product._id);
             })
+
             const order = {contact,products};
+
             this.postOrderAsync(order)
                 .then(response => {
                     this.orderData = response;
+                    console.log(this.orderData)
+                    this.saveOrder(this.orderData);
+                    this.displayConfirmPage();
                 })
         }
     }
 
+    //BIND
+    bindOnOrderConfirm(callback) {
+        this.displayConfirmPage = callback;
+    }
     bindOnCartChanged(callback) {
         this.displayCart = callback;
     }

@@ -164,9 +164,9 @@ class View {
     }
 
     //the Error message when server error
-    displayErrorServer() {
+    displayErrorServer(id) {
         //the root element
-        this.err = this.getElementById("product");
+        this.err = this.getElementById(id);
 
         //the article element
         this.article = this.createElement("article");
@@ -248,21 +248,106 @@ class View {
         })
     }
 
+    redirectConfirmOrder() {
+        document.location.href = "../html/confirmation.html";
+    }
+
+    //create confirmation order
+    createConfirmationOrder(data) {
+        let article = this.getElementById("confirmOrder");
+        let thxTitle = this.createElement("h2");
+        let numOrder = this.createElement("p");
+        let table = this.createElement("table");
+        let thead = this.createElement("thead");
+        let trThead = this.createElement("tr");
+        let imgThead = this.createElement("th");
+        let nameProduct = this.createElement("th");
+        let priceProduct = this.createElement("th");
+        let tbody = this.createElement("tbody");
+        let totalOrder = this.createElement("p");
+        let listContact = this.createElement("ul");
+        let liFirstName = this.createElement("li");
+        let liLastName = this.createElement("li");
+        let liAddress = this.createElement("li");
+        let liCity = this.createElement("li");
+        let liEmail = this.createElement("li");
+
+        thxTitle.textContent = "Merci pour votre commande " + data.contact.firstName + " " + data.contact.lastName + " !";
+        numOrder.textContent = "Numéro de la commande : " + data.orderId;
+        totalOrder.textContent = "Total de la commande : " + this.transformPrice(this.getTotalPrice(data));
+
+        //append h2/p and table in article
+        article.append(thxTitle, numOrder, table, totalOrder, listContact);
+
+        //append tr in thead
+        thead.append(trThead);
+        imgThead.textContent = "Image de l'article";
+        nameProduct.textContent = "Nom de l'article";
+        priceProduct.textContent = "Prix de l'article";
+
+        //append th in tr of thead
+        trThead.append(imgThead, nameProduct, priceProduct);
+
+        //generate table for articles
+        data.products.forEach(product => {
+            let tr = this.createElement("tr");
+            let tdImg = this.createElement("td");
+            let imgArticle = this.createElement("img", "imgConfirm");
+            let tdName = this.createElement("td");
+            let tdPrice = this.createElement("td");
+
+            //append all td in tr
+            tr.append(tdImg, tdName, tdPrice);
+
+            imgArticle.src = product.imageUrl;
+
+            //append img in tdImg
+            tdImg.append(imgArticle);
+
+            tdName.textContent = product.name;
+            tdPrice.textContent = this.transformPrice(product.price);
+
+            //append TR in tbody for each article;
+            tbody.append(tr);
+
+
+        })
+
+        //append thead and tbody in table
+        table.append(thead, tbody);
+
+        liFirstName.textContent = "Prénom : " + data.contact.firstName;
+        liLastName.textContent = "Nom : " + data.contact.lastName;
+        liAddress.textContent = "Adresse : " + data.contact.address;
+        liCity.textContent = "Ville : " + data.contact.city;
+        liEmail.textContent = "E-Mail : " + data.contact.email;
+
+        listContact.append(liFirstName,liLastName, liAddress, liCity, liEmail);
+    }
+
+    getTotalPrice(data) {
+        let totalPrice = 0;
+        data.products.forEach(id => {
+            totalPrice = totalPrice + id.price;
+        })
+        return totalPrice;
+    }
 
     //=========
     //==EVENT==
     //=========
+
+    //add product to cart
     bindAddToCart(handler, product){
         this.btnAdd.addEventListener("click", event => {
             if(product._id) {
                 const id = product._id;
-
                 handler(id);
-                console.log(id)
             }
         })
     }
 
+    //delete product to cart
     bindDeleteToCart(handler) {
         this.btnDelete.addEventListener("click", event => {
             if(event.target.className === "deleteItem") {
@@ -272,12 +357,12 @@ class View {
         })
     }
 
+    //send order
     bindSendOrder(handler) {
         this.form.addEventListener("submit", event => {
             event.preventDefault();
             handler(this.form);
             this._resetInput();
-
         })
     }
 

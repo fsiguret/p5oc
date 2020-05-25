@@ -3,23 +3,27 @@
     <head>
         <meta charset="UTF-8">
         <title>Confirmation de votre commande</title>
+        <link type="text/css" rel="stylesheet" href="../css/styles.css">
     </head>
     <body>
         <header>
             <a href="../index.html"><img src="" alt="logo Orinoco"></a>
+            <nav>
+                <a href="../index.html">Accueil</a>
+                <a href="panier.html">Panier</a>
+                <a href="confirmation.html">Vos commandes</a>
+            </nav>
         </header>
         <main>
-            <article>
-                <h2>Merci pour votre commande !</h2>
-                <ul>
-                    <li>Numéro de votre commande : </li>
-                    <li>Montant de votre commande : </li>
-                </ul>
-            </article>
+            <article id="confirmOrder"></article>
             <a href="../index.html">Retourner à l'acceuil</a>
         </main>
         <footer>
             <p>&copy; 2020 Orinoco<p>
         </footer>
+        <script src="../js/Model/Model.js"></script>
+        <script src="../js/view/View.js"></script>
+        <script src="../js/controller/ConfirmationController.js"></script>
+        <script src="../js/confirmation.js"></script>
     </body>
 </html>

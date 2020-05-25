@@ -51,3 +51,7 @@
 .btnDrop:hover {
     background-color: #3e8e41;
 }
+
+.imgConfirm {
+    width: 50px;
+}
