@@ -7,6 +7,7 @@ class CartController {
         this.model.bindOnCartChanged(this.onCartChanged);
         this.view.bindSendOrder(this.handleSendOrder);
         this.model.bindOnOrderConfirm(this.displayConfirmPage);
+        this.view.displayNbItemCart(this.model.getNbItemCart());
     }
 
     firstDisplayCart = (data, totalPrice, responseServer) => {
@@ -34,10 +35,12 @@ class CartController {
                 this.view.bindDeleteToCart(this.handleDeleteToCart);
                 this.view.displayTotal(totalPrice);
             });
+
         }else {
             this.view.deleteDisplayCart("product");
             this.view.displayCartError();
         }
+        this.view.displayNbItemCart(this.model.getNbItemCart());
     }
 
     displayConfirmPage = data => {

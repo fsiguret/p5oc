@@ -3,6 +3,7 @@ class ConfirmationController {
         this.model = model;
         this.view = view;
         this.displayConfirmationOrder(this.model.getOrder(), this.model.getProductsAsync());
+        this.view.displayNbItemCart(this.model.getNbItemCart());
     }
 
     displayConfirmationOrder = (data, responseServer) => {

@@ -30,6 +30,7 @@ class ProductController {
         } else {
             this.errorIdNotFound();
         }
+        this.model.bindDisplayNbCart(this.displayNbCart);
     }
 
     //display item
@@ -37,6 +38,7 @@ class ProductController {
         response.then(data => {
             this.view.createItem(data);
             this.view.bindAddToCart(this.handleAddToCart, data);
+            this.view.displayNbItemCart(this.model.getNbItemCart());
         }).catch(error => {
                 //display error server
                 this.view.displayErrorServer();
@@ -52,6 +54,10 @@ class ProductController {
     //display error server
     displayErrorSystem() {
         this.view.displayErrorServer();
+    }
+
+    displayNbCart = nbItem => {
+        this.view.displayNbItemCart(nbItem);
     }
 
     handleAddToCart = id => {

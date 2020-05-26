@@ -193,7 +193,6 @@ class View {
 
         //display total
         this.displayTotal(totalPrice);
-
     }
 
     generateCart(product) {
@@ -227,6 +226,11 @@ class View {
 
         //append trbody in tbody
         tbody.append(trBody);
+    }
+
+    displayNbItemCart(nbItem) {
+        let textCart = this.getElementById("myCart");
+        textCart.textContent = "Panier (" + nbItem + ")";
     }
 
     displayTotal(totalPrice) {
@@ -405,11 +409,10 @@ class View {
     //=========
 
     //add product to cart
-    bindAddToCart(handler, product){
+    bindAddToCart(handler, product) {
         this.btnAdd.addEventListener("click", event => {
             if(product._id) {
-                const id = product._id;
-                handler(id);
+                handler(product._id);
             }
         });
     }
@@ -418,8 +421,7 @@ class View {
     bindDeleteToCart(handler) {
         this.btnDelete.addEventListener("click", event => {
             if(event.target.className === "deleteItem") {
-                const id = parseInt(event.target.parentElement.parentElement.id);
-                handler(id);
+                handler(parseInt(event.target.parentElement.parentElement.id));
             }
         });
     }

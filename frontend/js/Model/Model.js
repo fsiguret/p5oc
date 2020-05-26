@@ -4,6 +4,7 @@ class Model {
         this.cart = this.loadLocalstorage("shoppingCart") || [];
         this.orderData = this.loadLocalstorage("order") || {};
         this.totalPrice = 0;
+        this.nbItemCart = this.cart.length;
     }
 
     //=========
@@ -44,6 +45,8 @@ class Model {
                 this.cart.push(data);
                 this.saveCart(this.cart);
             });
+        this.nbItemCart++;
+        this.displayNbCart(this.nbItemCart);
     }
 
     //delete one item of localstorage
@@ -64,7 +67,10 @@ class Model {
         if(this.cart.length === 0) {
             this.deleteItemLocalStorage("shoppingCart");
         }
-        this.onCartChanged(this.cart, this.totalPrice);
+
+        this.nbItemCart--;
+
+        this.onCartChanged(this.cart, this.totalPrice, this.nbItemCart);
     }
 
     //=======
@@ -83,6 +89,10 @@ class Model {
 
     getOrder() {
         return this.orderData;
+    }
+
+    getNbItemCart() {
+        return this.nbItemCart;
     }
 
     //=====
@@ -131,6 +141,9 @@ class Model {
     //=====
     //BIND=
     //=====
+    bindDisplayNbCart(callback) {
+        this.displayNbCart = callback;
+    }
     bindOnOrderConfirm(callback) {
         this.displayConfirmPage = callback;
     }

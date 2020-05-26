@@ -2,16 +2,19 @@
     width: 50%;
     margin: auto;
 }
+
 .header {
     display: flex;
     justify-content: space-between;
     height: 50px;
 }
+
 .sectionProduct  {
     display: flex;
     flex-wrap: wrap;
 
 }
+
 .sectionProduct article {
     text-align: center;
     margin: auto;
@@ -21,9 +24,11 @@
 .productCart {
     text-align: center;
 }
+
 .productCart table {
     width: 100%;
 }
+
 .formSection {
     text-align: center;
 }
@@ -40,10 +45,6 @@
     width: 320px;
     height: 320px;
 }
-/* container */
-/*.dropdown {
-    display: inline-block;
-}*/
 
 /* Dropdown Button */
 .btnDrop {
@@ -97,6 +98,7 @@
 .articleOrder {
     text-align: center;
 }
+
 .articleOrder table {
     width: 100%;
     margin: 10px 0;
@@ -108,5 +110,4 @@
     width: 40%;
     margin: auto;
     padding: 0;
-
 }
