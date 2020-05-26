@@ -1,11 +1,49 @@
+.body {
+    width: 50%;
+    margin: auto;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+}
+.sectionProduct  {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.sectionProduct article {
+    text-align: center;
+    margin: auto;
+    width: 45%;
+}
+
+.productCart {
+    text-align: center;
+}
+.productCart table {
+    width: 100%;
+}
+.formSection {
+    text-align: center;
+}
+
+.formSection form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 35%;
+    margin: auto;
+}
+
 .images {
     width: 320px;
     height: 320px;
 }
 /* container */
-.dropdown {
+/*.dropdown {
     display: inline-block;
-}
+}*/
 
 /* Dropdown Button */
 .btnDrop {
@@ -22,7 +60,7 @@
     display: none;
     position: absolute;
     background-color: #f1f1f1;
-    min-width: 160px;
+    min-width: 180px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
 }
@@ -54,4 +92,21 @@
 
 .imgConfirm {
     width: 50px;
+}
+
+.articleOrder {
+    text-align: center;
+}
+.articleOrder table {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.articleOrder ul {
+    list-style: none;
+    text-align: left;
+    width: 40%;
+    margin: auto;
+    padding: 0;
+
 }
