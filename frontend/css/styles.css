@@ -1,24 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+:root {
+    --main-bg-color : #f3e9f1;
+    --main-body-color : #f3f3f3;
+    --second-main-color : #d47a29;
+}
 .body {
-    width: 50%;
+    font-family: 'Open Sans', sans-serif;
     margin: auto;
+    background-color: var(--main-body-color);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
-    height: 50px;
+    background-color: var(--main-bg-color);
+    padding: 1em;
 }
 
-.sectionProduct  {
+.header nav {
     display: flex;
-    flex-wrap: wrap;
-
+    margin: auto 0;
 }
 
-.sectionProduct article {
-    text-align: center;
+.header a {
+    text-decoration: none;
+    color: black;
+    margin-right: 1em;
+    font-size: 1.5em;
+}
+
+.header a::after {
+    content: "";
+    display: block;
+    border-bottom: solid 1px;
+    width: 100%;
+    max-width: 0;
+    transition: max-width 100ms linear;
+}
+
+.header a:hover::after {
+    max-width: 100%;
+}
+.sectionProduct {
+    width: 50%;
     margin: auto;
+}
+.titleIndex {
+    text-align: center;
+    font-size: 3em;
+    margin: 0 1em;
+}
+
+.divProduct  {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 1em;
+}
+
+.divProduct button {
+    padding: 1em;
+    background-color: var(--second-main-color);
+    margin: 0.5em 1em;
+    border: solid 1px #c98550;
+    border-radius: 0.5em;
+}
+
+.divProduct button:hover {
+    background-color: #db905e;
+}
+
+.divProduct article {
+    text-align: center;
     width: 45%;
+    margin-bottom: 1em;
+    padding: 1em;
+    box-shadow: 0 0 2px #000000;
+    background-color: var(--main-bg-color);
 }
 
 .productCart {
@@ -42,13 +100,21 @@
 }
 
 .images {
+    transform: scale(1);
     width: 320px;
-    height: 320px;
+    transition: transform 100ms;
+}
+.images:hover {
+    transform: scale(1.1);
+}
+
+.imagesCart {
+    width: 150px;
 }
 
 /* Dropdown Button */
 .btnDrop {
-    background-color: #4CAF50;
+    background-color: var(--main-bg-color);
     color: white;
     padding: 16px;
     font-size: 16px;
@@ -110,4 +176,9 @@
     width: 40%;
     margin: auto;
     padding: 0;
+}
+
+.footer {
+    position: sticky;
+    bottom: 0;
 }

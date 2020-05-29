@@ -14,6 +14,7 @@ class CartController {
         if(data.length > 0) {
             responseServer.then(response => {
                 this.view.createShoppingCart(data, totalPrice);
+                this.view.createFormOrder();
                 data.forEach(product => {
                     this.view.generateCart(product);
                     this.view.bindDeleteToCart(this.handleDeleteToCart);
@@ -38,6 +39,7 @@ class CartController {
 
         }else {
             this.view.deleteDisplayCart("product");
+            this.view.deleteDisplayCart("formSection");
             this.view.displayCartError();
         }
         this.view.displayNbItemCart(this.model.getNbItemCart());

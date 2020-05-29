@@ -10,6 +10,7 @@ class IndexController {
     //display list item
     displayListItem(response) {
         response.then(data => {
+            this.view.createStructure();
             data.forEach(product => {
                 this.view.createListItem(product);
                 this.view.bindAddToCart(this.handleAddToCart, product);

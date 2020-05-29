@@ -2,7 +2,7 @@ class View {
     constructor() {
         this.btnAdd = this.createElement("button", "addCart");
         this.btnDelete = this.createElement("button", "deleteItem");
-        this.form = this.getElementById("myForm");
+        this.form = this.createElement("form");
         this.nbItem = 0;
     }
 
@@ -28,6 +28,16 @@ class View {
     //======
     //INDEX=
     //======
+
+    //structure
+    createStructure() {
+        let app = this.getElementById("sectionProduct");
+        let divProduct = this.createElement("div", "divProduct");
+        divProduct.id = "product";
+        let title = this.createElement("h1", "titleIndex");
+        title.textContent = "Nos Produits";
+        app.append(title, divProduct);
+    }
 
     //create List of items
     createListItem(data) {
@@ -77,6 +87,7 @@ class View {
         article.append(name, imgA, price, description, detailA, addA);
     }
 
+
     //========
     //PRODUCT=
     //========
@@ -119,6 +130,8 @@ class View {
 
         //append all element in article
         article.append(name, img, this.dropDown, price, description, addA);
+
+        document.title = "Orinoco - " + data.name;
     }
 
     //Generate a button dropdown
@@ -195,6 +208,78 @@ class View {
         this.displayTotal(totalPrice);
     }
 
+    createFormOrder() {
+        //the root element
+        let sectionForm = this.getElementById("formSection");
+
+        let title = this.createElement("h2");
+        title.textContent = "Passer commande !";
+
+        this.form.id = "myForm";
+
+        //append h2 and form in section
+        sectionForm.append(title, this.form);
+
+        //the labels
+        let labelFirstName = this.createElement("label");
+        labelFirstName.htmlFor = "firstName";
+        labelFirstName.textContent = "Prénom";
+
+        let labelLastName = this.createElement("label");
+        labelLastName.htmlFor = "lastName";
+        labelLastName.textContent = "Nom";
+
+        let labelAddress = this.createElement("label");
+        labelAddress.htmlFor = "address";
+        labelAddress.textContent = "Adresse";
+
+        let labelCity = this.createElement("label");
+        labelCity.htmlFor = "city";
+        labelCity.textContent = "Ville";
+
+        let labelEmail = this.createElement("label");
+        labelEmail.htmlFor = "email";
+        labelEmail.textContent = "Adresse électronique";
+
+        //the inputs
+        this.inputFirstName = this.createElement("input");
+        this.inputFirstName.id = "firstName";
+        this.inputFirstName.type = "text";
+        this.inputFirstName.required = true;
+
+        this.inputLastName = this.createElement("input");
+        this.inputLastName.id = "lastName";
+        this.inputLastName.type = "text";
+        this.inputLastName.required = true;
+
+        this.inputAddress = this.createElement("input");
+        this.inputAddress.id = "address";
+        this.inputAddress.type = "text";
+        this.inputAddress.required = true;
+
+        this.inputCity = this.createElement("input");
+        this.inputCity.id = "city";
+        this.inputCity.type = "text";
+        this.inputCity.required = true;
+
+        this.inputEmail = this.createElement("input");
+        this.inputEmail.id = "email";
+        this.inputEmail.type = "email";
+        this.inputEmail.required = true;
+
+        //the button submit
+        let btnOrder = this.createElement("input");
+        btnOrder.type = "submit";
+        btnOrder.value = "Commander";
+
+        //append all elements in form
+        this.form.append(
+            labelFirstName, this.inputFirstName, labelLastName,
+            this.inputLastName, labelAddress, this.inputAddress,
+            labelCity, this.inputCity , labelEmail, this.inputEmail , btnOrder
+        );
+    }
+
     generateCart(product) {
         let tbody = this.getElementById("cart");
 
@@ -206,7 +291,7 @@ class View {
         let tdImg = this.createElement("td");
 
         //img of article
-        let imgArticle = this.createElement("img", "images");
+        let imgArticle = this.createElement("img", "imagesCart");
         imgArticle.src = product.imageUrl;
         tdImg.append(imgArticle);
 
@@ -430,8 +515,10 @@ class View {
     bindSendOrder(handler) {
         this.form.addEventListener("submit", event => {
             event.preventDefault();
-            handler(this.form);
-            this._resetInput();
+            if(this._validateForm()) {
+                handler(this.form);
+                this._resetInput();
+            }
         });
     }
 
@@ -444,5 +531,24 @@ class View {
                 node.value = '';
             }
         });
+    }
+
+    _validateForm() {
+        let regexNameAndCity = /^[a-zâäàéèùêëîïôöçñ/]+(\s?[a-zâäàéèùêëîïôöçñ/]+)*$/i;
+        let regexAddress = /^[^@&"()!_$*€£`+=\/;?#^¨]+?$/;
+        let inputBlankLettering = /^\s+$/;
+        let regexEmail = /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/;
+
+        if(regexNameAndCity.test(this.inputFirstName.value)) {
+            if(regexNameAndCity.test(this.inputLastName.value)) {
+                if(regexAddress.test(this.inputAddress.value) && !inputBlankLettering.test(this.inputAddress.value)) {
+                    if(regexNameAndCity.test(this.inputCity.value)) {
+                        if(regexEmail.test(this.inputEmail.value)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

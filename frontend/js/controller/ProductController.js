@@ -53,7 +53,7 @@ class ProductController {
 
     //display error server
     displayErrorSystem() {
-        this.view.displayErrorServer();
+        this.view.displayErrorServer("product");
     }
 
     displayNbCart = nbItem => {
