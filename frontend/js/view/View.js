@@ -40,7 +40,7 @@ class View {
         let divProduct = this.createElement("div", "divProduct");
         divProduct.id = "product";
         let title = this.createElement("h1", "titleIndex");
-        title.textContent = "Nos Produits";
+        title.textContent = "NOS PRODUITS";
         app.append(title, divProduct);
     }
 
@@ -72,7 +72,7 @@ class View {
         price.textContent = "Prix : " + this.transformPrice(data.price);
 
         //The description of item
-        let description = this.createElement("p");
+        let description = this.createElement("p", "description");
         description.textContent = "Description : " + data.description;
 
         //the button detail
@@ -103,7 +103,7 @@ class View {
         let product = this.getElementById("product");
 
         //The article of item
-        let article = this.createElement("article");
+        let article = this.createElement("article", "articleProduct");
 
         //append article in root
         product.append(article);
@@ -113,8 +113,11 @@ class View {
         name.textContent = data.name;
 
         //the image of item
-        let img = this.createElement("img", "images");
+        let img = this.createElement("img");
         img.src = data.imageUrl;
+
+        //create div btn
+        let divBtn = this.createElement("div", "btnProduct");
 
         //generate dropdown
         this.generateDropDown(data);
@@ -132,9 +135,10 @@ class View {
         this.btnAdd.textContent = "Ajouter au panier";
 
         addA.append(this.btnAdd);
+        divBtn.append(this.dropDown, addA);
 
         //append all element in article
-        article.append(name, img, this.dropDown, price, description, addA);
+        article.append(name, img, divBtn, price, description);
 
         document.title = "Orinoco - " + data.name;
     }
@@ -220,10 +224,14 @@ class View {
         let title = this.createElement("h2");
         title.textContent = "Passer commande !";
 
+        let divForm = this.createElement("div", "myForm");
+
         this.form.id = "myForm";
 
+        divForm.append(this.form);
+
         //append h2 and form in section
-        sectionForm.append(title, this.form);
+        sectionForm.append(title, divForm);
 
         //the labels
         let labelFirstName = this.createElement("label");
@@ -270,7 +278,7 @@ class View {
         this.inputEmail.required = true;
 
         //the button submit
-        let btnOrder = this.createElement("input");
+        let btnOrder = this.createElement("input", "btnOrder");
         btnOrder.type = "submit";
         btnOrder.value = "Commander";
 
@@ -335,7 +343,7 @@ class View {
     //create confirmation order
     createConfirmationOrder(data) {
         let article = this.getElementById("confirmOrder");
-        let thxTitle = this.createElement("h2");
+        let thxTitle = this.createElement("h1");
         let numOrder = this.createElement("p");
         let table = this.createElement("table");
         let thead = this.createElement("thead");
@@ -344,7 +352,9 @@ class View {
         let nameProduct = this.createElement("th");
         let priceProduct = this.createElement("th");
         let tbody = this.createElement("tbody");
-        let totalOrder = this.createElement("p");
+        let totalOrder = this.createElement("p", "totalOrder");
+        let titleCoord = this.createElement("h2");
+        let divCoord = this.createElement("div", "coord");
         let listContact = this.createElement("ul");
         let liFirstName = this.createElement("li");
         let liLastName = this.createElement("li");
@@ -355,9 +365,10 @@ class View {
         thxTitle.textContent = "Merci pour votre commande " + data.contact.firstName + " " + data.contact.lastName + " !";
         numOrder.textContent = "Numéro de la commande : " + data.orderId;
         totalOrder.textContent = "Total de la commande : " + this.transformPrice(this.getTotalPrice(data));
+        titleCoord.textContent = "Coordonnées";
 
         //append h2/p and table in article
-        article.append(thxTitle, numOrder, table, totalOrder, listContact);
+        article.append(thxTitle, numOrder, table, totalOrder, titleCoord, divCoord);
 
         //append tr in thead
         thead.append(trThead);
@@ -401,6 +412,8 @@ class View {
         liEmail.textContent = "E-Mail : " + data.contact.email;
 
         listContact.append(liFirstName,liLastName, liAddress, liCity, liEmail);
+
+        divCoord.append(listContact);
     }
 
     getTotalPrice(data) {
