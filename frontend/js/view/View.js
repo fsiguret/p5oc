@@ -3,6 +3,11 @@ class View {
         this.btnAdd = this.createElement("button", "addCart");
         this.btnDelete = this.createElement("button", "deleteItem");
         this.form = this.createElement("form");
+        this.inputFirstName = this.createElement("input");
+        this.inputLastName = this.createElement("input");
+        this.inputAddress = this.createElement("input");
+        this.inputCity = this.createElement("input");
+        this.inputEmail = this.createElement("input");
         this.nbItem = 0;
     }
 
@@ -242,27 +247,24 @@ class View {
         labelEmail.textContent = "Adresse électronique";
 
         //the inputs
-        this.inputFirstName = this.createElement("input");
+
         this.inputFirstName.id = "firstName";
         this.inputFirstName.type = "text";
         this.inputFirstName.required = true;
 
-        this.inputLastName = this.createElement("input");
         this.inputLastName.id = "lastName";
         this.inputLastName.type = "text";
         this.inputLastName.required = true;
 
-        this.inputAddress = this.createElement("input");
+
         this.inputAddress.id = "address";
         this.inputAddress.type = "text";
         this.inputAddress.required = true;
 
-        this.inputCity = this.createElement("input");
         this.inputCity.id = "city";
         this.inputCity.type = "text";
         this.inputCity.required = true;
 
-        this.inputEmail = this.createElement("input");
         this.inputEmail.id = "email";
         this.inputEmail.type = "email";
         this.inputEmail.required = true;
@@ -515,11 +517,53 @@ class View {
     bindSendOrder(handler) {
         this.form.addEventListener("submit", event => {
             event.preventDefault();
-            if(this._validateForm()) {
-                handler(this.form);
+            if(this.validateForm()) {
+                handler(this.form, true);
                 this._resetInput();
             }
         });
+    }
+
+    validateForm() {
+        const regexNameAndCity = /^[a-zâäàéèùêëîïôöçñ/]+(\s?[a-zâäàéèùêëîïôöçñ/]+)*$/i;
+        const regexAddress = /^[^@&"()!_$*€£`+=\/;?#^¨]+?$/;
+        const inputBlankLettering = /^\s+$/;
+        const regexEmail = /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/;
+        let isFirstName = false;
+        let isLastName = false;
+        let isAddress = false;
+        let isCity = false;
+        let isEmail = false;
+
+        if (this.validInput(regexNameAndCity, this.inputFirstName, inputBlankLettering)) {
+            isFirstName = true;
+        }
+        if(this.validInput(regexNameAndCity, this.inputLastName, inputBlankLettering)) {
+            isLastName = true;
+        }
+        if(this.validInput(regexAddress, this.inputAddress, inputBlankLettering)) {
+            isAddress = true;
+        }
+        if(this.validInput(regexNameAndCity, this.inputCity, inputBlankLettering)) {
+            isCity = true;
+        }
+        if(this.validInput(regexEmail, this.inputEmail, inputBlankLettering)) {
+            isEmail = true;
+        }
+
+        if(isFirstName && isLastName && isAddress && isCity && isEmail) {
+            return true;
+        }
+    }
+
+    validInput(regex, input, regexBlank) {
+        if(regex.test(input.value) && !regexBlank.test(input.value)) {
+            input.className = input.id;
+            return true;
+        }else {
+            input.className = "error";
+            return false;
+        }
     }
 
     //=================
@@ -531,24 +575,5 @@ class View {
                 node.value = '';
             }
         });
-    }
-
-    _validateForm() {
-        let regexNameAndCity = /^[a-zâäàéèùêëîïôöçñ/]+(\s?[a-zâäàéèùêëîïôöçñ/]+)*$/i;
-        let regexAddress = /^[^@&"()!_$*€£`+=\/;?#^¨]+?$/;
-        let inputBlankLettering = /^\s+$/;
-        let regexEmail = /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/;
-
-        if(regexNameAndCity.test(this.inputFirstName.value)) {
-            if(regexNameAndCity.test(this.inputLastName.value)) {
-                if(regexAddress.test(this.inputAddress.value) && !inputBlankLettering.test(this.inputAddress.value)) {
-                    if(regexNameAndCity.test(this.inputCity.value)) {
-                        if(regexEmail.test(this.inputEmail.value)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
     }
 }

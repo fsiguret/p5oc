@@ -111,6 +111,10 @@
 .imagesCart {
     width: 150px;
 }
+/*form error cart*/
+.error {
+    border:  solid 1px red;
+}
 
 /* Dropdown Button */
 .btnDrop {

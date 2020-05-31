@@ -112,23 +112,20 @@ class Model {
 
     // send order to api
     sendOrder(form) {
+
         if(this.cart.length > 0) {
             const contact = {};
             const products = [];
-
             form.childNodes.forEach(node => {
                 if(node.nodeName === "INPUT") {
                     let id = node.id;
                     contact[id] = node.value;
                 }
             });
-
             this.cart.forEach(product => {
                 products.push(product._id);
             });
-
             const order = {contact,products};
-
             this.postOrderAsync(order)
                 .then(response => {
                     this.orderData = response;

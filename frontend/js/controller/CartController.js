@@ -5,9 +5,9 @@ class CartController {
 
         this.firstDisplayCart(this.model.getCart(), this.model.getTotal(), this.model.getProductsAsync());
         this.model.bindOnCartChanged(this.onCartChanged);
+        this.view.displayNbItemCart(this.model.getNbItemCart());
         this.view.bindSendOrder(this.handleSendOrder);
         this.model.bindOnOrderConfirm(this.displayConfirmPage);
-        this.view.displayNbItemCart(this.model.getNbItemCart());
     }
 
     firstDisplayCart = (data, totalPrice, responseServer) => {
@@ -45,7 +45,7 @@ class CartController {
         this.view.displayNbItemCart(this.model.getNbItemCart());
     }
 
-    displayConfirmPage = data => {
+    displayConfirmPage = id => {
         this.view.redirectConfirmOrder();
     }
 
@@ -53,7 +53,7 @@ class CartController {
         this.model.deleteToCart(id);
     }
 
-    handleSendOrder = form => {
-        this.model.sendOrder(form);
+    handleSendOrder = (form, isValid) => {
+        this.model.sendOrder(form, isValid);
     }
 }
