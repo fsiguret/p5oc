@@ -1,8 +1,8 @@
 class Model {
     constructor(url) {
         this.url = url;
-        this.cart = this.loadLocalstorage("shoppingCart") || [];
-        this.orderData = this.loadLocalstorage("order") || {};
+        this.cart = this.loadLocalStorage("shoppingCart") || [];
+        this.orderData = this.loadSessionStorage("order");
         this.totalPrice = 0;
         this.nbItemCart = this.cart.length;
     }
@@ -33,9 +33,14 @@ class Model {
         return await response.json();
     }
 
-    //load shopping cart
-    loadLocalstorage(key){
+    //load local storage
+    loadLocalStorage(key){
         return JSON.parse(localStorage.getItem(key));
+    }
+
+    //load session storage
+    loadSessionStorage(key){
+        return JSON.parse(sessionStorage.getItem(key));
     }
 
     //add item to shopping Cart
@@ -104,15 +109,14 @@ class Model {
         localStorage.setItem("shoppingCart", JSON.stringify(cart));
     }
 
-    //save order to local storage
+    //save order to session storage
     saveOrder(order) {
-        localStorage.setItem("order", JSON.stringify(order));
+        sessionStorage.setItem("order", JSON.stringify(order));
         this.deleteItemLocalStorage("shoppingCart");
     }
 
     // send order to api
     sendOrder(form) {
-
         if(this.cart.length > 0) {
             const contact = {};
             const products = [];

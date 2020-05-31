@@ -491,6 +491,15 @@ class View {
         document.location.href = "../html/confirmation.html";
     }
 
+    //redirect to index page
+    redirectToIndex() {
+        let root = this.getElementById("confirmOrder");
+        let textError = this.createElement("p");
+        textError.textContent = "Vous n'avez pas de commandes ! Vous serez redirigé vers la page principale dans quelques secondes.";
+        root.append(textError);
+        setTimeout(() => document.location.href = "../index.html", 4000);
+    }
+
     //=========
     //==EVENT==
     //=========

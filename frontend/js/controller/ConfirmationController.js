@@ -7,10 +7,17 @@ class ConfirmationController {
     }
 
     displayConfirmationOrder = (data, responseServer) => {
-        responseServer.then(response=> {
-            this.view.createConfirmationOrder(data);
-        }).catch(error => {
-            this.view.displayErrorServer("confirmOrder")
-        });
+        if(data != null ) {
+            responseServer.then(response=> {
+
+                this.view.createConfirmationOrder(data);
+
+            }).catch(error => {
+                console.log(data)
+                this.view.displayErrorServer("confirmOrder")
+            });
+        } else {
+            this.view.redirectToIndex();
+        }
     }
 }
