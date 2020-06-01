@@ -241,3 +241,27 @@ table, .myForm, .coord{
     margin: 1em auto;
 }
 
+@media (max-width: 1600px) {
+    .sectionProduct {
+        width: 75%;
+    }
+}
+@media (max-width: 1030px) {
+    .sectionProduct {
+        width: 100%;
+    }
+}
+@media (max-width: 770px) {
+
+    .divProduct {
+        margin: 0;
+    }
+    .divProduct article {
+        width: 100%;
+        margin: 0 auto 1em auto;
+    }
+    .btnOrder {
+        width: 100%;
+    }
+}
+
