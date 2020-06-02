@@ -65,6 +65,7 @@ class View {
         let img = this.createElement("img","images");
         imgA.href = "html/product.html?id=" + data._id;
         img.src = data.imageUrl;
+        img.alt = "photo d'ours en peluche";
         imgA.append(img);
 
         //The price of item
@@ -76,20 +77,16 @@ class View {
         description.textContent = "Description : " + data.description;
 
         //the button detail
-        let detailA = this.createElement("a");
-        let detail = this.createElement("button");
-        detail.textContent = "Détail du produit";
+        let detailA = this.createElement("a", "btnLink");
+        detailA.textContent = "Détail du produit";
         detailA.href = "html/product.html?id=" + data._id;
-        detailA.append(detail);
 
-        //add text, id and href to button Add
-        let addA = this.createElement("a");
-        this.btnAdd = this.createElement("button", "addCart");
+        //add text to button Add
+        this.btnAdd = this.createElement("button", "btnLink");
         this.btnAdd.textContent = "Ajouter au panier";
-        addA.append(this.btnAdd);
 
         //append all element in article
-        article.append(name, imgA, price, description, detailA, addA);
+        article.append(name, imgA, price, description, detailA, this.btnAdd);
     }
 
 
@@ -102,11 +99,14 @@ class View {
         //the root element
         let product = this.getElementById("product");
 
+        //the title of the page
+        let title = this.createElement("h1");
+        title.textContent = "Ours en peluche";
         //The article of item
         let article = this.createElement("article", "articleProduct");
 
         //append article in root
-        product.append(article);
+        product.append(title, article);
 
         //The name of item
         let name = this.createElement("h2");
@@ -115,6 +115,7 @@ class View {
         //the image of item
         let img = this.createElement("img");
         img.src = data.imageUrl;
+        img.alt = "photo d'ours en peluche";
 
         //create div btn
         let divBtn = this.createElement("div", "btnProduct");
@@ -131,11 +132,9 @@ class View {
         description.textContent = "Description : " + data.description;
 
         //The button add shopping cart
-        let addA = this.createElement("a");
         this.btnAdd.textContent = "Ajouter au panier";
 
-        addA.append(this.btnAdd);
-        divBtn.append(this.dropDown, addA);
+        divBtn.append(this.dropDown, this.btnAdd);
 
         //append all element in article
         article.append(name, img, divBtn, price, description);
@@ -303,6 +302,7 @@ class View {
         //img of article
         let imgArticle = this.createElement("img", "imagesCart");
         imgArticle.src = product.imageUrl;
+        imgArticle.alt = "photo d'ours en peluche";
         tdImg.append(imgArticle);
 
         let tdName = this.createElement("td");
@@ -391,6 +391,7 @@ class View {
             tr.append(tdImg, tdName, tdPrice);
 
             imgArticle.src = product.imageUrl;
+            imgArticle.alt = "photo d'ours en peluche";
 
             //append img in tdImg
             tdImg.append(imgArticle);
