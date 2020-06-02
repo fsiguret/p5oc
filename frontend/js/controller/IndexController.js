@@ -18,7 +18,7 @@ class IndexController {
             this.view.displayNbItemCart(this.model.getNbItemCart());
         }).catch(error => {
                 //display error server
-                this.view.displayErrorServer("product");
+                this.view.displayErrorServer("sectionProduct");
         });
     }
 

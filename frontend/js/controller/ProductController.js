@@ -14,7 +14,7 @@ class ProductController {
             //search if list of id include id url
             this.model.getProductsAsync().then(data =>{
                 data.forEach(product => {
-                    if (product._id.includes(this.id)) {
+                    if (product._id === this.id) {
                         ifId = true;
                     }
                 });
@@ -41,7 +41,7 @@ class ProductController {
             this.view.displayNbItemCart(this.model.getNbItemCart());
         }).catch(error => {
                 //display error server
-                this.view.displayErrorServer();
+                this.view.displayErrorServer("product");
         });
     }
 

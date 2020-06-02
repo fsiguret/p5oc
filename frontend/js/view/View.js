@@ -462,7 +462,7 @@ class View {
 
         //the message
         this.msg = this.createElement("h2");
-        this.msg.textContent = "Ce produit n'éxiste pas ou n'existe plus. vous allez être redérigé vers la page principale.";
+        this.msg.textContent = "Ce produit n'éxiste pas ou n'existe plus. vous allez être redirigé vers la page principale.";
 
         //append message in article
         this.article.append(this.msg);
