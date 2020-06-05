@@ -179,20 +179,17 @@ class View {
         let title = this.createElement("h1");
         title.textContent = "Mon Panier";
 
+
         //the array
-        let table = this.createElement("table");
+        let table = this.createElement("table", "responsiveTable");
         let thead = this.createElement("thead");
         let tbody = this.createElement("tbody");
         tbody.id = "cart";
-
         table.append(thead, tbody);
-
         let textPrice = this.createElement("p");
         textPrice.id = "total";
-
         //the line head element
         let trHead = this.createElement("tr");
-
         //the row head elements
         let thImg = this.createElement("th");
         thImg.textContent = "Image de l'article";
@@ -202,13 +199,10 @@ class View {
         thPrice.textContent = "Prix";
         let thAction = this.createElement("th");
         thAction.textContent = "Actions";
-
         //append all th in trhead
         trHead.append(thImg, thName, thPrice, thAction);
         //append thead and tbody on table
-
         thead.append(trHead);
-
         //append all in cart
         cart.append(title, table, textPrice);
 
@@ -345,7 +339,7 @@ class View {
         let article = this.getElementById("confirmOrder");
         let thxTitle = this.createElement("h1");
         let numOrder = this.createElement("p");
-        let table = this.createElement("table");
+        let table = this.createElement("table", "responsiveTable");
         let thead = this.createElement("thead");
         let trThead = this.createElement("tr");
         let imgThead = this.createElement("th");
@@ -548,7 +542,7 @@ class View {
     }
 
     validateForm() {
-        const regexNameAndCity = /^[a-zâäàéèùêëîïôöçñ/]+(\s?[a-zâäàéèùêëîïôöçñ/]+)*$/i;
+        const regexNameAndCity = /^[a-zâäàéèùêëîïôöçñ/]+[-]?(\s?[a-zâäàéèùêëîïôöçñ/]+)*$/i;
         const regexAddress = /^[^@&"()!_$*€£`+=\/;?#^¨]+?$/;
         const inputBlankLettering = /^\s+$/;
         const regexEmail = /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/;

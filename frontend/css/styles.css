@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 :root {
     --main-bg-color : #c6c6c6;
     --main-body-color : #ffffff;
-    --second-main-color : #d47a29;
 }
+
 .body {
     font-family: 'Open Sans', sans-serif;
     margin: auto;
@@ -256,6 +257,18 @@ table, .myForm, .coord{
 }
 @media (max-width: 770px) {
 
+    .header {
+        display: block;
+        text-align: center;
+    }
+
+    .header nav,
+    .header a{
+        display: block;
+        margin: auto;
+        width: 55%;
+    }
+
     .divProduct {
         margin: 0;
     }
@@ -265,5 +278,21 @@ table, .myForm, .coord{
     }
     .btnOrder {
         width: 100%;
+    }
+    .btnLink {
+        display: inline-block;
+    }
+
+    .responsiveTable,
+    .responsiveTable thead,
+    .responsiveTable tbody,
+    .responsiveTable tr,
+    .responsiveTable th,
+    .responsiveTable td {
+        display: block;
+    }
+
+    .responsiveTable thead {
+        display: none;
     }
 }
