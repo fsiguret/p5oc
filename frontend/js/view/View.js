@@ -535,7 +535,7 @@ class View {
         this.form.addEventListener("submit", event => {
             event.preventDefault();
             if(this.validateForm()) {
-                handler(this.form, true);
+                handler(this.form);
                 this._resetInput();
             }
         });

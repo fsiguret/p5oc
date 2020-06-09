@@ -53,7 +53,7 @@ class CartController {
         this.model.deleteToCart(id);
     }
 
-    handleSendOrder = (form, isValid) => {
-        this.model.sendOrder(form, isValid);
+    handleSendOrder = (form) => {
+        this.model.sendOrder(form);
     }
 }

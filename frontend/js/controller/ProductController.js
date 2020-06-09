@@ -56,6 +56,7 @@ class ProductController {
         this.view.displayErrorServer("product");
     }
 
+    //display nb articles
     displayNbCart = nbItem => {
         this.view.displayNbItemCart(nbItem);
     }
