@@ -82,7 +82,7 @@ class View {
         detailA.href = "html/product.html?id=" + data._id;
 
         //add text to button Add
-        this.btnAdd = this.createElement("button", "btnLink");
+        this.btnAdd = this.createElement("button", "btnAdd");
         this.btnAdd.textContent = "Ajouter au panier";
 
         //append all element in article
